@@ -1,15 +1,9 @@
-const apiUrl = 'https://en.wikipedia.org/w/api.php?action=query&format=json&list=search&utf8=1&srprop=size|wordcount|timestamp|sectionsnippet&srsearch=';
-// $(document).ready(() => {
-//     $('#search').keypress((e) => {
-//         if ( event.which == 13 )
-//             wikiSearch.search(apiUrl + $('#search').val());
-//     });
-// });
+const apiUrl = 'https://en.wikipedia.org/w/api.php?action=query&format=json&list=search&utf8=1&srsearch=';
 
 class WikiSearch {
     searchInput() {
         $('#search').keypress((e) => {
-            if ( event.which == 13 )
+            if ( e.which == 13 )
                 this.search(apiUrl + $('#search').val());
         });
     }
@@ -27,9 +21,29 @@ class WikiSearch {
 
     searchResults(results) {
         console.log(results);
-        $('#searchResults').append(results);
+        results.query.search.map((result) => {
+            // removes html from the snippet result
+            $(`
+                <li>
+                    <h3>${result.title}</h3>
+                    <p>${this.santitizeString(result.snippet)}</p>
+                </li>
+            `).prependTo('#searchResults');
+        });
+    }
+
+    /**
+     * Strips out Wikipedia's HTML and returns a clean string.
+     *
+     * @param string
+     * @returns string
+     */
+    santitizeString(string) {
+        let rex = /(<([^>]+)>)/ig;
+        return string.replace(rex, "");
     }
 }
+
 let wikiSearch = new WikiSearch();
 $(document).ready(() => {
     wikiSearch.searchInput();
