@@ -28,6 +28,7 @@ class WikiSearch {
                     <h3>${result.title}</h3>
                     <p>${this.santitizeString(result.snippet)}</p>
                 </li>
+                <hr>
             `).prependTo('#searchResults');
         });
     }
