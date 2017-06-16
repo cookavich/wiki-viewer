@@ -5,3 +5,11 @@ ul {
 li {
     list-style: none;
 }
+
+.non-search {
+    text-align: center;
+}
+
+.searchmatch {
+    font-weight: bold;
+}
